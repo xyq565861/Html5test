@@ -47,6 +47,10 @@ header h1{
 .left ul li.selected{
   color: red;
 }
+.select{
+  background: red;
+  color: green;
+}
 a {
   color: #00B7FF;
 }
