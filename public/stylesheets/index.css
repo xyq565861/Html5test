@@ -47,6 +47,13 @@ header h1{
 .left ul li.selected{
   color: red;
 }
+.right{
+  top: 170px;
+  right: 10px;
+  bottom: 10px;
+  left:220px;
+  border:solid #fff 1px;
+}
 .select{
   background: red;
   color: green;
