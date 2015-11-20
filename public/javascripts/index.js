@@ -18,8 +18,8 @@ var xhr = new XMLHttpRequest();
 var ac = new window.AudioContext();
 var gainNode = ac.createGain();
 var analyser = ac.createAnalyser();
-var size = 64;
-analyser.fftSize = size*4;
+var size = 128;
+analyser.fftSize = size*2;
 analyser.connect(gainNode);
 var source = null;
 var n = 0;
@@ -56,20 +56,22 @@ function changeVolume(soundvalue){
 
 function visualizer(){
     var arr = new Uint8Array(analyser.frequencyBinCount)
-    requestAnimationFrame = window.requestAnimationFrame;
+    requestAnimationFrame = window.requestAnimationFrame ||
+							window.webkitRequestAnimationFrame;
     function v(){
         analyser.getByteFrequencyData(arr);
         draw(arr);
         requestAnimationFrame(v);
     }    
+    requestAnimationFrame(v);
 }
 
 function draw(arr){
     ctx.clearRect(0,0,width,height);
     var w = width/size;
     for (var i = 0;i<size;i++){
-        var h = arr[i]/256 *height;
-        ctx.fillRect(w * i, height - h, w*0.8);
+        var h = arr[i]/256 * height;
+        ctx.fillRect(w * i, height - h, w*0.8,h);
         
     }
 }
@@ -83,6 +85,7 @@ function start(buffer){
      }
     bufferSource[bufferSource.start?"start":"noteOn"](0);
     source = bufferSource;
+    visualizer();
 }
 
 function choose(songs){
